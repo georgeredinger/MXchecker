@@ -1,0 +1,9 @@
+It seems like a good idea to check an email addresses domain for a valid MX record before atempting to send an email to it.
+Domain name look ups are slow and most email is sent to a few domains like, gmail, yahoo,msn,aol, etc.
+So caching seems like a good way to speed it up checking for valid MX records.
+
+$ ruby email_check.rb 
+Cached 0.3698486899999999 ms per check
+Not Cached 2367.49772168 ms per check
+
+
