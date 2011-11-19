@@ -2,26 +2,26 @@ require 'resolv'
 require 'dalli'
 
 def validate_email_domain(domain)
-  Resolv::DNS.open do |dns|
-    @mx = dns.getresources(domain, Resolv::DNS::Resource::IN::MX)
-  end
-  @mx.size > 0 ? 'true' : 'false'
+	Resolv::DNS.open do |dns|
+		@mx = dns.getresources(domain, Resolv::DNS::Resource::IN::MX)
+	end
+	@mx.size > 0 ? 'true' : 'false'
 end
 
 def cached_goodness(email,assert)
 	domain=email.match(/\@(.+)/)[1]
-  if(@cache.get(domain) == nil)
+	if(@cache.get(domain) == nil)
 		validity = validate_email_domain(domain)
-    @cache.set(domain,validity, ttl=86400)
+		@cache.set(domain,validity, ttl=86400)
 	end
-  validity = @cache.get(domain)
+	validity = @cache.get(domain)
 	raise 'hell' if assert != validity
-  validity 
+	validity 
 end
 
 def goodness(email,assert)
 	domain=email.match(/\@(.+)/)[1]
-  validity=validate_email_domain(domain)
+	validity=validate_email_domain(domain)
 	raise 'hell' if assert != validity
 	validity
 end
@@ -30,7 +30,7 @@ end
 
 start=Time.now
 20.times do
-  cached_goodness("george@georgeredinger.com",'true')
+	cached_goodness("george@georgeredinger.com",'true')
 	cached_goodness("jgoodsen@radsoft.com",'true')
 	cached_goodness("nesdoogj@tfosdar.com",'false')
 	cached_goodness("nesdoogj@goatsmilkforbreakfastumumgood.com",'false')
